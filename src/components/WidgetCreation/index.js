@@ -13,34 +13,30 @@ const WidgetCreation = ({onUpdateWidgets}) => {
   const [descriptionError, setDescriptionError] = useState(false);
   const [priceError, setPriceError] = useState(false);
 
+  // i wouldve like to create a useEfect hook to await for the set state
+   const checkErrors= (property,attributes,setProperty)=>{ 
+      if (property.length >= attributes.min && property.length <= attributes.max) {
+        setProperty(false);
+      } else {
+        setProperty(true);
+      }
+       
+   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.length >= nameAttr.min && name.length <= nameAttr.max) {
-      setNameError(false);
-    } else {
-      setNameError(true);
-    }
+    checkErrors(name,nameAttr,setNameError)
+    checkErrors(description,descriptionAttr,setDescriptionError)
+    checkErrors(price,priceAttr,setPriceError)
 
-    if (
-      description.length >= descriptionAttr.min &&
-      description.length <= descriptionAttr.max
-    ) {
-      setDescriptionError(false);
-    } else {
-      setDescriptionError(true);
-    }
-
-    if (price >= priceAttr.min && price <= priceAttr.max) {
-      setPriceError(false);
-    } else {
-      setPriceError(true);
-    }
 
     if(!nameError && !descriptionError && !priceError){
         updateWidget({name,description, price}).catch((error) =>
           console.error("Error creating widget", error)
         );
         onUpdateWidgets()
+        setName("")
+        setDescription("")
+        setPrice("")  
     } 
   };
 
@@ -81,16 +77,16 @@ const WidgetCreation = ({onUpdateWidgets}) => {
           error={nameError}
         />
         <WidgetInput
-          attributes={descriptionAttr}
-          value={description}
-          handleChange={handleDescriptionChange}
-          error={descriptionError}
-        />
-        <WidgetInput
           attributes={priceAttr}
           value={price}
           handleChange={handlePriceChange}
           error={priceError}
+        />
+        <WidgetInput
+          attributes={descriptionAttr}
+          value={description}
+          handleChange={handleDescriptionChange}
+          error={descriptionError}
         />
 
         <Button onClick={handleSubmit}  variant="contained">Create</Button>
