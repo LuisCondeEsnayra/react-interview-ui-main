@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import WidgetCreation from "../WidgetCreation"
-import WidgetDisplay from "../WidgetDisplay";
+import WidgetCard from "../WidgetCard";
 import { fetchAllWidgets } from "../../lib/apiConnect";
 
 const WidgetList = () => {
@@ -38,7 +38,7 @@ const WidgetList = () => {
           sx={{ paddingRight: 4, width: "100%" }}
         >
           {widgets.map((current, index) => (
-            <WidgetDisplay key={index} widget={current}  onUpdateWidgets={updateWidgets}/>
+            <WidgetCard key={index} widget={current}  onUpdateWidgets={updateWidgets}/>
           ))}
         </Grid>
       </Stack>
